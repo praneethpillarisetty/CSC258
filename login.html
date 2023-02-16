@@ -1,0 +1,20 @@
+{%extends "index.html" %}
+{%block content%}
+
+<h3>Please Enter credentials to login</h3>
+<form method="POST">
+
+      <label for="email">Username : </label>
+      <input type="text" name="uname" class="form-control" id="uname">
+	<br>
+      <label for="email">Password : </label>
+      <input type="password" name="passw" class="form-control" id="passw">
+	<br>
+	<label for="email"></label>
+      <button type="submit" class="btn form-control btn-default">Login</button>
+</form>
+{% if error %}
+<p class="error"><strong>Error:</strong> {{ error }}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{%extends "index.html" %}
+{%block content%} 
+<h3>Please Enter credentials to Register</h3>
+<form method="POST">
+<label for="email">Username : </label>
+<input type="text" name="uname" class="form-control" id="uname">
+<br>
+<label for="email">Email : </label>
+<input type="email" name="mail" class="form-control" id="mail">
+<br>
+<label for="email">Password : </label>
+<input type="password" name="passw" class="form-control" id="passw">
+<br>
+<label for="email"></label>
+<button type="submit" class="btn form-control btn-default">Register</button>
+</form>
+{% if error %}
+<p class="error"><strong>Error:</strong> {{ error }}
+{% endif %}
+
+{% endblock %}
