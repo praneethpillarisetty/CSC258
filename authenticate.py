@@ -1,4 +1,4 @@
-import pyrebase
+import firebase
 
 config = {
     "apiKey": "AIzaSyDEwGq_NX1KPjgdGYtqcTwH3jSyK5ueBGU",
@@ -11,16 +11,19 @@ config = {
   "databaseURL": ""
 }
 
-firebase = pyrebase.initialize_app(config)
+app = firebase.initialize_app(config)
 
-auth = firebase.auth()
+auth = app.auth()
 
+current_user = None
 #user = auth.create_user_with_email_and_password(email, password) #to create a user with help of email and password
 
 def firebaselogin(email,password):
+    global current_user
     try :
         user = auth.sign_in_with_email_and_password(email, password)
         auth.get_account_info(user['idToken'])
+        current_user = user
         return True, user
     except:
         return False, ''
@@ -39,3 +42,27 @@ def firebasesignout(user):
         return True
     except:
         return False
+def firebaseupload(uname, file_name, file):
+    global current_user
+    try:
+        storage = app.storage()
+        storage.child(uname).child(file_name).put(file, current_user.get('idToken'))
+        return True
+    except Exception as e:
+        print(e)
+        return False
+def firebasegeturl(uname, file_name):
+    global current_user
+    try:
+        storage = app.storage()
+        url = storage.child(uname).child(file_name).get_url()
+        return url
+    except:
+        return 'None'
+
+#flag, user = firebaselogin("praneethpillarisetty@gmail.com","Praneeth@123m")
+#flag, user = firebaselogin("venkatasatyasaipran@csus.edu","Praneeth@123m")
+#storage = app.storage()
+#storage.child("praneethpillarisetty@gmail.com").child('bg_home.png').put('static/temp/bg_home.png', user.get('idToken'))
+#print(storage.child("praneethpillarisetty@gmail.com").get_url())
+#print(storage.child("praneethpillarisetty@gmail.com").child('bg_home.png').get_url())
