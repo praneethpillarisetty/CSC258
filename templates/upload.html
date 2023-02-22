@@ -1,0 +1,14 @@
+{%extends "home.html" %}
+{%block content%}
+
+<h1>Upload and display image</h1>
+<form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg,.png">
+	   <br>
+        <input type="submit" value="Submit">
+</form>
+{% if error %}
+<p class="error" style="color:red;"> {{ error }}
+{% endif %}
+
+{% endblock %}

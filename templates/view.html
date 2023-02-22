@@ -1,0 +1,11 @@
+{%extends "home.html" %}
+{%block content%}
+{% for i,j in data %}
+<a href="{{j}}" target="_blank">{{i}}</a>
+<br>
+{% endfor%}
+{% if error %}
+<p class="error" style="color:red;"> {{ error }}
+{% endif %}
+
+{% endblock %}
