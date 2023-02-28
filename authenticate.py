@@ -60,9 +60,3 @@ def firebasegeturl(uname, file_name):
     except:
         return 'None'
 
-#flag, user = firebaselogin("praneethpillarisetty@gmail.com","Praneeth@123m")
-#flag, user = firebaselogin("venkatasatyasaipran@csus.edu","Praneeth@123m")
-#storage = app.storage()
-#storage.child("praneethpillarisetty@gmail.com").child('bg_home.png').put('static/temp/bg_home.png', user.get('idToken'))
-#print(storage.child("praneethpillarisetty@gmail.com").get_url())
-#print(storage.child("praneethpillarisetty@gmail.com").child('bg_home.png').get_url())
