@@ -55,22 +55,19 @@ body {
 <body>
 
 <div class="topnav">
-  <a href="/{{name}}/upload">upload</a>
-  <a href="/{{name}}/view">view</a>
-  <a href="/{{name}}/delete">delete</a>
-  <a href="/{{name}}/add_friend">add_friend</a>
-  <a href="/{{name}}/delete_friend">delete_friend</a>
-  <a href="/{{name}}/friends">view_friends</a>
-  <a href="/{{name}}/check_owner">check_owner</a>
   <div class="topnav-right">
-	<a href="/{{name}}/home"> {{ name }}</a>
-    <a href="/{{name}}/signout">Sign_Out</a>
-  </div>
+  <a href=""> {{name}}'s data </a>
+</div>
 </div>
 
 <div style="padding-left:20px">
 </div>
-{% block content %}
-{% endblock %}
+{% for i,j in data %}
+<a href= "view_friend_download/{{i}}" target="_blank">{{i}}</a>
+<br>
+{% endfor%}
+{% if error %}
+<p class="error" style="color:red;"> {{ error }}
+{% endif %}
 </body>
 </html>

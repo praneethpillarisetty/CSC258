@@ -1,0 +1,14 @@
+{%extends "home.html" %}
+{%block content%}
+<h1> select the files to delete </h1>
+<form method="POST" enctype="multipart/form-data">
+{% for i in data %}
+<input type="checkbox" name="images" value = "{{i}}" >
+<label for="image"> {{i}}</label><br>
+{% endfor%}
+<input type="submit" value="delete">
+{% if error %}
+<p class="error" style="color:red;"> {{ error }}
+{% endif %}
+
+{% endblock %}

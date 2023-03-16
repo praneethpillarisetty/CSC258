@@ -1,0 +1,16 @@
+{%extends "home.html" %}
+{%block content%}
+
+<h1>Enter Username to add them as a Friend</h1>
+<form method="POST" enctype="multipart/form-data">
+      <label for="email">Username : </label>
+      <input type="text" name="uname" class="form-control" id="uname">
+	<br>
+	<label for="email"></label>
+	<input type="submit" value="Submit">
+</form>
+{% if error %}
+<p class="error" style="color:red;"> {{ error }}
+{% endif %}
+
+{% endblock %}
