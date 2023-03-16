@@ -1,5 +1,9 @@
 import firebase
-
+from PIL import Image
+import requests
+from io import BytesIO
+import random
+from stegano import lsb
 config = {
     "apiKey": "AIzaSyDEwGq_NX1KPjgdGYtqcTwH3jSyK5ueBGU",
   "authDomain": "csc258-67d5d.firebaseapp.com",
@@ -16,7 +20,48 @@ app = firebase.initialize_app(config)
 auth = app.auth()
 
 current_user = None
-#user = auth.create_user_with_email_and_password(email, password) #to create a user with help of email and password
+def change_format(file):
+    temp = file[::-1]
+    x = len(file) - temp.index(".")
+    im1 = Image.open(file)
+    im1.save(file[:x]+"png")
+    return file[:x]+"png"
+def encrypt(file, key, text):
+    file = change_format(file)
+    secret = lsb.hide(file, text)
+    secret.save(file)
+    fo = open(file, "rb")
+    image=fo.read()
+    fo.close()
+    image=bytearray(image)
+    for index , value in enumerate(image):
+	    image[index] = value^key
+    fo=open(file,"wb")
+    imageRes = file
+    fo.write(image)
+    fo.close()
+    return file
+
+def decrypt(file, key):
+    file = "static/temp/"+file
+    fo = open(file, "rb")
+    image = fo.read()
+    fo.close()
+    image = bytearray(image)
+    for index , value in enumerate(image):
+	    image[index] = value^key
+    fo = open(file,"wb")
+    imageRes = file
+    fo.write(image)
+    fo.close()
+    return imageRes
+
+def owner(file):
+    try:
+        own = lsb.reveal(file)
+    except:
+        own = "Not Owned by anyone"
+    return own
 
 def firebaselogin(email,password):
     global current_user
@@ -57,6 +102,23 @@ def firebasegeturl(uname, file_name):
         storage = app.storage()
         url = storage.child(uname).child(file_name).get_url()
         return url
+    except:
+        return 'None'
+def firebasedownload(uname, file_name):
+    global current_user
+    try:
+        storage = app.storage()
+        url = storage.child(uname).child(file_name).download("static/temp/"+file_name)
+        return url
+    except:
+        return 'None'
+
+def firebasedelete(uname, filename):
+    global current_user
+    try:
+        storage = app.storage()
+        storage.child(uname).child(filename).delete()
+        return True
     except:
         return 'None'
 
