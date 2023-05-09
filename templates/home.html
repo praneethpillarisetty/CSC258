@@ -51,20 +51,60 @@ body {
   float: right;
 }
 </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+          <script>
+            function uploadImage() {
+              // Read the image file
+              const file = document.getElementById('image-file').files[0];
+              const reader = new FileReader();
+              reader.readAsArrayBuffer(file);
+
+              // Generate a random encryption key
+              const encryptionKey = CryptoJS.lib.WordArray.random(16);
+
+              // Encrypt the image data
+              reader.onload = function() {
+                const iv = CryptoJS.lib.WordArray.random(16);
+                const ciphertext = CryptoJS.AES.encrypt(
+                  CryptoJS.lib.WordArray.create(reader.result),
+                  encryptionKey,
+                  { iv: iv }
+                );
+                const encryptedData = iv.concat(ciphertext.ciphertext).toString(CryptoJS.enc.Base64);
+
+                // Send the encrypted image to the Flask server
+                const xhr = new XMLHttpRequest();
+                const url = '/{{name}}/upload_dec';
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Image uploaded successfully');
+                    window.location.href = '/{{name}}/upload';
+                  }
+                };
+                xhr.send(JSON.stringify({
+                  name: file.name,
+                  data: encryptedData,
+                  key: encryptionKey.toString(CryptoJS.enc.Base64)
+                }));
+              };
+            }
+          </script>
 </head>
 <body>
 
 <div class="topnav">
-  <a href="/{{name}}/upload">upload</a>
-  <a href="/{{name}}/view">view</a>
-  <a href="/{{name}}/delete">delete</a>
-  <a href="/{{name}}/add_friend">add_friend</a>
-  <a href="/{{name}}/delete_friend">delete_friend</a>
-  <a href="/{{name}}/friends">view_friends</a>
-  <a href="/{{name}}/check_owner">check_owner</a>
+  <a href="{{pds_address}}/{{name}}/upload">upload</a>
+  <a href="{{sn_address}}/{{name}}/view">view</a>
+  <a href="{{pds_address}}/{{name}}/delete">delete</a>
+  <a href="{{pds_address}}/{{name}}/add_friend">add_friend</a>
+  <a href="{{pds_address}}/{{name}}/delete_friend">delete_friend</a>
+  <a href="{{pds_address}}/{{name}}/friends">view_friends</a>
+  <a href="{{pds_address}}/{{name}}/check_owner">check_owner</a>
   <div class="topnav-right">
-	<a href="/{{name}}/home"> {{ name }}</a>
-    <a href="/{{name}}/signout">Sign_Out</a>
+	<a href="{{pds_address}}/{{name}}/home"> {{ name }}</a>
+    <a href="{{pds_address}}/{{name}}/signout">Sign_Out</a>
   </div>
 </div>
 
