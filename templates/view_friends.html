@@ -3,7 +3,14 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-
+li {
+            list-style: none; /* Remove the bullet point */
+}
+li::before {
+content: "\2192"; /* Use a bullet point symbol */
+color: green; /* Change the color of the bullet point */
+margin-right: 0.5em; /* Add some space between the bullet point and the text */
+}
 label {
 	display: inline-block;
 	width: 150px;
@@ -63,7 +70,7 @@ body {
 <div style="padding-left:20px">
 </div>
 {% for i,j in data %}
-<a href= "view_friend_download/{{i}}" target="_blank">{{i}}</a>
+<li><a href= "view_friend_download/{{i}}" target="_blank">{{i}}</a></li>
 <br>
 {% endfor%}
 {% if error %}

@@ -1,10 +1,10 @@
 {%extends "home.html" %}
 {%block content%}
-<h1>click to view their data</h1>
+<h4>click to view friends data</h4>
 {% for i in data %}
-<a href="../{{i}}/view_friends" target="_blank">{{i}}</a>
-<br>
+<li><a href="../{{i}}/view_friends" target="_blank">{{i}}</a></li>
 {% endfor%}
+
 {% if error %}
 <p class="error" style="color:red;"> {{ error }}
 {% endif %}

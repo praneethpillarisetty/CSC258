@@ -1,7 +1,7 @@
 {%extends "home.html" %}
 {%block content%}
 {% for i,j in data %}
-<a href="{{pds_address}}/{{name}}/view_download/{{i}}" target="_blank">{{i}}</a>
+<li><a href="{{pds_address}}/{{name}}/view_download/{{i}}" target="_blank">{{i}}</a></li>
 <br>
 {% endfor%}
 {% if error %}
