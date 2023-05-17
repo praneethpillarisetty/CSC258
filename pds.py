@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 app.secret_key = 'BAD_SECRET_KEY'
-sn_host = '10.117.50.233'
+sn_host = '10.0.0.92'
 sn_port = '5001'
 pds_port = '5000'
 sn_address = "http://"+sn_host+':'+sn_port
@@ -63,11 +63,13 @@ def get_user_friends(email):
         return 'None'
 
 def add_user_friends(email, friend):
+    if friend is None:
+        return 'None'
     friends = list(user.query.filter_by(username = friend))
-    friend_key = user.query.filter_by(username = friend).first().key
     if len(friends) == 0:
         return 'None'
     else:
+        friend_key = user.query.filter_by(username = friend).first().key
         register = user_friend(email = email, friend = friend, friend_key = friend_key)
         db.session.add(register)
         db.session.commit()

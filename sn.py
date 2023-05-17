@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 app.secret_key = 'BAD_SECRET_KEY'
 login_users = {}
 
-sn_host = '10.117.50.233'
+sn_host = '10.0.0.92'
 sn_port = '5001'
 pds_port = '5000'
 sn_address = "http://"+sn_host+':'+sn_port
